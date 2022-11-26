@@ -26,6 +26,7 @@ export default class Client extends Stack {
     });
 
     // Authenticate to GitHub repository through codebuild using credentials stored in secrets manager
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const codebuildCredentials = new codebuild.GitHubSourceCredentials(
       this,
       clientConstant.CODEBUILD_CREDENTIALS_NAME,
@@ -38,6 +39,7 @@ export default class Client extends Stack {
     );
 
     // Create a CodeBuild Project and deploy the artifact to previously created S3 Bucket
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const codeBuildProject = new codebuild.Project(
       this,
       clientConstant.CODEBUILD_PROJECT_NAME,
