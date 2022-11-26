@@ -16,7 +16,7 @@ export default class Client extends Stack {
     super(scope, id, props);
 
     // Create an S3 Bucket for static web application hosting
-    const bucket = new s3.Bucket(this, clientConstant.BUCKET_NAME, {
+    const deploymentBucket = new s3.Bucket(this, clientConstant.BUCKET_NAME, {
       bucketName: clientConstant.BUCKET_NAME,
       encryption: s3.BucketEncryption.UNENCRYPTED,
       websiteIndexDocument: 'index.html',
