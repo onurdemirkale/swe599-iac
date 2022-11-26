@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import {Construct} from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class Swe599IacStack extends cdk.Stack {
