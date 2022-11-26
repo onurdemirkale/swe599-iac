@@ -1,9 +1,16 @@
+// CDK
 import {Stack, StackProps, RemovalPolicy, SecretValue} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+
+// Constants
 import clientConstant from '../constants/clientConstant';
+
+// File system
 import {readFileSync} from 'fs';
+
+// Third party
 import * as yaml from 'yaml';
 
 /**
