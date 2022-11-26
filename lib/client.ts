@@ -67,7 +67,7 @@ export default class Client extends Stack {
           webhookFilters: [
             codebuild.FilterGroup.inEventOf(
               codebuild.EventAction.PULL_REQUEST_MERGED
-            ).andBranchIs(clientConstant.DEPLOYMENT_BRANCH),
+            ).andBaseBranchIs(clientConstant.DEPLOYMENT_BRANCH),
           ],
         }),
         buildSpec: codebuild.BuildSpec.fromObjectToYaml(buildspec),
