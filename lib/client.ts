@@ -4,6 +4,13 @@ import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import clientConstant from '../constants/clientConstant';
 
+/**
+ * A CDK Stack that is suitable for deploying a React web application.
+ * This stack includes a CodeBuild project which deploys its artifact to a
+ * provisioned S3 Bucket.
+ * The S3 Bucket is provisioned with a configuration to enable static website
+ * hosting.
+ */
 export default class Client extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
