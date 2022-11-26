@@ -30,4 +30,42 @@ export default class Client extends Stack {
       ),
     }
   );
+
+  // Create a CodeBuild Project and deploy the artifact to previously created S3 Bucket
+  codeBuildProject = new codebuild.Project(
+    this,
+    clientConstant.CODEBUILD_PROJECT_NAME,
+    {
+      projectName: clientConstant.CODEBUILD_PROJECT_NAME,
+      source: codebuild.Source.gitHub({
+        repo: clientConstant.REPOSITORY_NAME,
+        owner: clientConstant.REPOSITORY_OWNER,
+        webhook: true,
+        webhookFilters: [
+          codebuild.FilterGroup.inEventOf(
+            codebuild.EventAction.PULL_REQUEST_MERGED
+          ).andBranchIs(clientConstant.DEPLOYMENT_BRANCH),
+        ],
+      }),
+      buildSpec: codebuild.BuildSpec.fromObject({
+        version: '0.2',
+        phases: {
+          install: {
+            commands: 'npm install',
+          },
+          build: {
+            commands: 'npm run build',
+          },
+        },
+        artifacts: {
+          files: '**/*',
+        },
+      }),
+      environment: {
+        buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_4,
+        computeType: codebuild.ComputeType.SMALL,
+      },
+      checkSecretsInPlainTextEnvVariables: false,
+    }
+  );
 }
