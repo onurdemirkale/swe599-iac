@@ -69,6 +69,13 @@ export default class Client extends Stack {
             files: '**/*',
           },
         }),
+        artifacts: codebuild.Artifacts.s3({
+          bucket: deploymentBucket,
+          name: '/',
+          includeBuildId: false,
+          encryption: false,
+          packageZip: false,
+        }),
         environment: {
           buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_4,
           computeType: codebuild.ComputeType.SMALL,
