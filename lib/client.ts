@@ -24,7 +24,10 @@ export default class Client extends Stack {
     this,
     clientConstant.CODEBUILD_CREDENTIALS_NAME,
     {
-      accessToken: SecretValue.secretsManager(clientConstant.GITHUB_TOKEN_NAME),
+      accessToken: SecretValue.secretsManager(
+        clientConstant.GITHUB_TOKEN_NAME,
+        {jsonField: 'accessToken'}
+      ),
     }
   );
 }
