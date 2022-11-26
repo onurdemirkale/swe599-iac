@@ -3,6 +3,8 @@ import {Construct} from 'constructs';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import clientConstant from '../constants/clientConstant';
+import {readFileSync} from 'fs';
+import * as yaml from 'yaml';
 
 /**
  * A CDK Stack that is suitable for deploying a React web application.
@@ -38,6 +40,12 @@ export default class Client extends Stack {
       }
     );
 
+    // Read buildspec
+    const buildspecYaml = readFileSync(clientConstant.BUILDSPEC_PATH, 'utf-8');
+
+    // Parse buildspec
+    const buildspec = yaml.parse(buildspecYaml);
+
     // Create a CodeBuild Project and deploy the artifact to previously created S3 Bucket
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const codeBuildProject = new codebuild.Project(
@@ -55,20 +63,7 @@ export default class Client extends Stack {
             ).andBranchIs(clientConstant.DEPLOYMENT_BRANCH),
           ],
         }),
-        buildSpec: codebuild.BuildSpec.fromObject({
-          version: '0.2',
-          phases: {
-            install: {
-              commands: 'npm install',
-            },
-            build: {
-              commands: 'npm run build',
-            },
-          },
-          artifacts: {
-            files: '**/*',
-          },
-        }),
+        buildSpec: codebuild.BuildSpec.fromObjectToYaml(buildspec),
         artifacts: codebuild.Artifacts.s3({
           bucket: deploymentBucket,
           name: '/',
