@@ -1,6 +1,26 @@
 # Welcome to SWE599 Infrastructure as Code repository.
 
-The Infrastructure as Code is implemented using the AWS Cloud Development Kit (CDK). The language of the project is TypeScript. The project is formatted using Google TypeScript Style (GTS). Please take a look at useful commands below.
+The Infrastructure as Code is implemented using the AWS Cloud Development Kit (CDK). The language of the project is TypeScript. The project is formatted using Google TypeScript Style (GTS). Please take a look at usage and useful commands below.
+
+## Usage
+
+Install the AWS CLI (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+
+Locate your .aws directory in which the config and credentials are stored. Export your AWS profile to the CLI to create a temporary session using:
+
+```
+export AWS_PROFILE=profile_name
+```
+
+OR
+
+Configure your AWS account using:
+
+```
+aws configure
+```
+
+The CDK commands can now be executed.
 
 ## Useful commands
 
