@@ -1,12 +1,39 @@
 // CDK
-import {Stack, StackProps} from 'aws-cdk-lib';
+import {Stack, StackProps, CfnOutput} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
 // Constants
-import backendConstant from '../constants/clientConstant';
+import {API_GATEWAY} from '../constants/backendConstant';
 
 export default class Backend extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
+
+    // Create an API Gateway
+    const api = new apigateway.RestApi(this, 'api', {
+      description: 'example api gateway',
+      deployOptions: {
+        stageName: API_GATEWAY.STAGE,
+      },
+
+      // Enable CORS
+      defaultCorsPreflightOptions: {
+        allowHeaders: [
+          'Content-Type',
+          'X-Amz-Date',
+          'Authorization',
+          'X-Api-Key',
+        ],
+
+        // Deep copy to a new array as the constant can't be assigned to mutable type 'string[]
+        allowMethods: [...API_GATEWAY.ALLOWED_METHODS],
+        allowCredentials: true,
+        allowOrigins: [API_GATEWAY.ALLOWED_ORIGINS],
+      },
+    });
+
+    // Create an Output for the API URL
+    new CfnOutput(this, 'apiUrl', {value: api.url});
   }
 }
