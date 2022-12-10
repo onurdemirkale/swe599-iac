@@ -12,7 +12,7 @@ export default class Backend extends Stack {
 
     // Create an API Gateway
     const api = new apigateway.RestApi(this, 'api', {
-      description: 'example api gateway',
+      description: API_GATEWAY.DESCRIPTION,
       deployOptions: {
         stageName: API_GATEWAY.STAGE,
       },
