@@ -1,4 +1,4 @@
-const clientConstant = {
+const CLIENT = {
   BUCKET_NAME: 'swe599-client-bucket',
   CODEBUILD_CREDENTIALS_NAME: 'codeBuildGithubCredentials',
   GITHUB_TOKEN_NAME: 'github-auth-token',
@@ -9,4 +9,4 @@ const clientConstant = {
   BUILDSPEC_PATH: './lib/buildspec/react-buildspec.yml',
 };
 
-export default clientConstant;
+export {CLIENT};
