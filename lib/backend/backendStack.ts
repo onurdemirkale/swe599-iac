@@ -12,10 +12,10 @@ import {LAMBDA, LAMBDA_LIST} from '../../constants/lambdaConstant';
 import BackendStackProps from '../../interfaces/BackendStackProps';
 
 // Types
-import LambdaArnList from '../../types/lambdaArnList';
+import LambdaArnList from '../../types/LambdaArnList';
 
 // Functions
-import LambdaModel from '../../models/LambdaModel';
+import LambdaFunction from './lambdaFunction';
 
 export default class BackendStack extends Stack {
   constructor(scope: Construct, id: string, props: BackendStackProps) {
@@ -49,7 +49,7 @@ export default class BackendStack extends Stack {
 
     // Iterate over and create the defined Lambda functions
     LAMBDA_LIST.forEach(LAMBDA_FUNCTION => {
-      const lambdaFunction = new LambdaModel(
+      const lambdaArn = LambdaFunction(
         props.vpc,
         LAMBDA_FUNCTION.NAME,
         LAMBDA_FUNCTION.ARCHITECTURE,
@@ -58,7 +58,7 @@ export default class BackendStack extends Stack {
         lambdaSecurityGroup
       );
 
-      lambdaArnList[LAMBDA_FUNCTION.NAME] = lambdaFunction.arn;
+      lambdaArnList[LAMBDA_FUNCTION.NAME] = lambdaArn;
     });
   }
 }
