@@ -4,11 +4,11 @@
 import {App} from 'aws-cdk-lib';
 
 // Constants
-import {VPC_STACK_NAME, CLIENT_STACK_NAME} from '../constants/stackConstant';
+import {VPC_STACK_NAME, CLIENT_STACK_NAME} from '../constants/globalConstant';
 
 // Stacks
 import VpcStack from '../lib/backend/vpcStack';
-import ClientStack from '../lib/clientStack';
+import ClientStack from '../lib/frontend/clientStack';
 
 const app = new App();
 

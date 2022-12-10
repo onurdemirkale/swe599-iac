@@ -5,7 +5,7 @@ import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 
 // Constants
-import {CLIENT} from '../constants/clientConstant';
+import {CLIENT} from '../../constants/clientConstant';
 
 // File system
 import {readFileSync} from 'fs';
