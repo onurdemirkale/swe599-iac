@@ -5,7 +5,7 @@ import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 
 // Constants
-import clientConstant from '../constants/clientConstant';
+import {CLIENT} from '../constants/clientConstant';
 
 // File system
 import {readFileSync} from 'fs';
@@ -25,8 +25,8 @@ export default class Client extends Stack {
     super(scope, id, props);
 
     // Create an S3 Bucket for static web application hosting
-    const deploymentBucket = new s3.Bucket(this, clientConstant.BUCKET_NAME, {
-      bucketName: clientConstant.BUCKET_NAME,
+    const deploymentBucket = new s3.Bucket(this, CLIENT.BUCKET_NAME, {
+      bucketName: CLIENT.BUCKET_NAME,
       encryption: s3.BucketEncryption.UNENCRYPTED,
       websiteIndexDocument: 'index.html',
       publicReadAccess: true,
@@ -38,17 +38,16 @@ export default class Client extends Stack {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const codebuildCredentials = new codebuild.GitHubSourceCredentials(
       this,
-      clientConstant.CODEBUILD_CREDENTIALS_NAME,
+      CLIENT.CODEBUILD_CREDENTIALS_NAME,
       {
-        accessToken: SecretValue.secretsManager(
-          clientConstant.GITHUB_TOKEN_NAME,
-          {jsonField: 'accessToken'}
-        ),
+        accessToken: SecretValue.secretsManager(CLIENT.GITHUB_TOKEN_NAME, {
+          jsonField: 'accessToken',
+        }),
       }
     );
 
     // Read buildspec
-    const buildspecYaml = readFileSync(clientConstant.BUILDSPEC_PATH, 'utf-8');
+    const buildspecYaml = readFileSync(CLIENT.BUILDSPEC_PATH, 'utf-8');
 
     // Parse buildspec
     const buildspec = yaml.parse(buildspecYaml);
@@ -57,17 +56,17 @@ export default class Client extends Stack {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const codeBuildProject = new codebuild.Project(
       this,
-      clientConstant.CODEBUILD_PROJECT_NAME,
+      CLIENT.CODEBUILD_PROJECT_NAME,
       {
-        projectName: clientConstant.CODEBUILD_PROJECT_NAME,
+        projectName: CLIENT.CODEBUILD_PROJECT_NAME,
         source: codebuild.Source.gitHub({
-          repo: clientConstant.REPOSITORY_NAME,
-          owner: clientConstant.REPOSITORY_OWNER,
+          repo: CLIENT.REPOSITORY_NAME,
+          owner: CLIENT.REPOSITORY_OWNER,
           webhook: true,
           webhookFilters: [
             codebuild.FilterGroup.inEventOf(
               codebuild.EventAction.PULL_REQUEST_MERGED
-            ).andBaseBranchIs(clientConstant.DEPLOYMENT_BRANCH),
+            ).andBaseBranchIs(CLIENT.DEPLOYMENT_BRANCH),
           ],
         }),
         buildSpec: codebuild.BuildSpec.fromObjectToYaml(buildspec),
