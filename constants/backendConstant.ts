@@ -1,9 +1,6 @@
-const API_GATEWAY = {
-  NAME: 'swe599Api',
-  DESCRIPTION: 'SWE599 REST API',
-  STAGE: 'dev',
-  ALLOWED_METHODS: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  ALLOWED_ORIGINS: 'http://localhost:3000',
+const BACKEND = {
+  CODEBUILD_CREDENTIALS_NAME: 'codeBuildGithubCredentials',
+  GITHUB_TOKEN_NAME: 'github-auth-token',
 } as const;
 
-export {API_GATEWAY};
+export {BACKEND};
