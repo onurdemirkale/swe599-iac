@@ -4,7 +4,7 @@ import {Construct} from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
 // Constants
-import {API_GATEWAY} from '../../constants/backendConstant';
+import {API_GATEWAY} from '../../constants/apiGatewayConstant';
 
 export default class Backend extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
