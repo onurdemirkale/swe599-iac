@@ -36,7 +36,7 @@ export default class BackendStack extends Stack {
       }
     );
 
-    // Create the security for the Lambda functions
+    // Create the security group for the Lambda functions
     const lambdaSecurityGroup = new ec2.SecurityGroup(
       this,
       LAMBDA.SECURITY_GROUP_NAME,
