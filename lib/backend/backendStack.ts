@@ -14,12 +14,19 @@ import BackendStackProps from '../interfaces/BackendStackProps';
 // Types
 import LambdaArnList from '../types/LambdaArnList';
 
-// Functions
-import LambdaFunction from './lambdaFunction';
+// Models
+import {LambdaPipelineStack} from './lambdaPipelineStack';
 
 export default class BackendStack extends Stack {
   constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props);
+
+    // Env variable checks
+    if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
+      throw new Error(
+        'CDK - Undefined CDK credentials in environment variables.'
+      );
+    }
 
     // Initialize the list which will map the Lambda names to created Lambda ARNs
     let lambdaArnList: LambdaArnList;
@@ -47,18 +54,6 @@ export default class BackendStack extends Stack {
       }
     );
 
-    // Iterate over and create the defined Lambda functions
-    LAMBDA_LIST.forEach(LAMBDA_FUNCTION => {
-      const lambdaArn = LambdaFunction(
-        props.vpc,
-        LAMBDA_FUNCTION.NAME,
-        LAMBDA_FUNCTION.ARCHITECTURE,
-        LAMBDA_FUNCTION.CODEBUILD_ON_COMMIT_BRANCHES,
-        LAMBDA_FUNCTION.MEMORY_SIZE,
-        lambdaSecurityGroup
-      );
-
-      lambdaArnList[LAMBDA_FUNCTION.NAME] = lambdaArn;
-    });
+    new LambdaPipelineStack(this, 'LambdaPipelineStack', {});
   }
 }
