@@ -8,6 +8,7 @@ interface LambdaConstant {
   CODEBUILD_ON_COMMIT_BRANCHES: string[];
   MEMORY_SIZE: number;
   TYPE: ('GET' | 'POST' | 'PUT' | 'DELETE' | 'AUTH')[];
+  PATH: '/login';
 }
 
 export default LambdaConstant;

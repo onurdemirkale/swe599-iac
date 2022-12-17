@@ -8,6 +8,7 @@ const LAMBDA_LIST: LambdaConstant[] = [
     CODEBUILD_ON_COMMIT_BRANCHES: ['test', 'test2'],
     MEMORY_SIZE: 256,
     TYPE: ['GET', 'POST', 'PUT'],
+    PATH: '/login',
   },
 ];
 
