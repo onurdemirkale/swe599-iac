@@ -5,14 +5,14 @@ import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
 // Constants
-import {BACKEND} from '../../constants/backendConstant';
-import {LAMBDA, LAMBDA_LIST} from '../../constants/lambdaConstant';
+import {BACKEND} from '../constants/backendConstant';
+import {LAMBDA, LAMBDA_LIST} from '../constants/lambdaConstant';
 
 // Interfaces
-import BackendStackProps from '../../interfaces/BackendStackProps';
+import BackendStackProps from '../interfaces/BackendStackProps';
 
 // Types
-import LambdaArnList from '../../types/LambdaArnList';
+import LambdaArnList from '../types/LambdaArnList';
 
 // Functions
 import LambdaFunction from './lambdaFunction';

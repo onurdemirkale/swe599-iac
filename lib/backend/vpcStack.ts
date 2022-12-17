@@ -1,7 +1,7 @@
 // CDK
 import {Stack, StackProps} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
-import {VPC} from '../../constants/vpcConstant';
+import {VPC} from '../constants/vpcConstant';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
 export default class VpcStack extends Stack {

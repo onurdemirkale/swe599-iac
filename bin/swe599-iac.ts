@@ -4,7 +4,10 @@
 import {App} from 'aws-cdk-lib';
 
 // Constants
-import {VPC_STACK_NAME, CLIENT_STACK_NAME} from '../constants/globalConstant';
+import {
+  VPC_STACK_NAME,
+  CLIENT_STACK_NAME,
+} from '../lib/constants/globalConstant';
 
 // Stacks
 import VpcStack from '../lib/backend/vpcStack';

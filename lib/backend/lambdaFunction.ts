@@ -1,7 +1,7 @@
 // CDK
 
 // Interfaces
-import LambdaFunction from '../../types/LamdaFunction';
+import LambdaFunction from '../types/LamdaFunction';
 
 const lambdaFunction: LambdaFunction = () => {
   const arn = 'placeholder';
