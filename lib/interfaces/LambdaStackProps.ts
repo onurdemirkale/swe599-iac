@@ -1,7 +1,12 @@
 import {StackProps} from 'aws-cdk-lib';
 
 interface LambdaStackProps extends StackProps {
-  null: any;
+  lambdaFunctionName: string;
+  sourceCodeRepositoryName: string;
+  sourceCodeRepositoryOwner: string;
+  sourceCodeRepositoryBranch: string;
+  githubTokenSecretName: string;
+  githubTokenSecretField: string;
 }
 
 export {LambdaStackProps};
