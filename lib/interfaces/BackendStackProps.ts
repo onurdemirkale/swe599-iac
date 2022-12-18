@@ -5,4 +5,4 @@ interface BackendStackProps extends StackProps {
   vpc: Vpc;
 }
 
-export default BackendStackProps;
+export {BackendStackProps};

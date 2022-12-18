@@ -11,4 +11,4 @@ interface LambdaConstant {
   PATH: '/login';
 }
 
-export default LambdaConstant;
+export {LambdaConstant};

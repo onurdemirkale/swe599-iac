@@ -9,7 +9,7 @@ import {BACKEND} from '../constants/backendConstant';
 import {LAMBDA, LAMBDA_LIST} from '../constants/lambdaConstant';
 
 // Interfaces
-import BackendStackProps from '../interfaces/BackendStackProps';
+import {BackendStackProps} from '../interfaces/BackendStackProps';
 
 // Types
 import LambdaArnList from '../types/LambdaArnList';

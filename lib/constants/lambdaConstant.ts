@@ -1,4 +1,4 @@
-import LambdaConstant from '../interfaces/LambdaConstant';
+import {LambdaConstant} from '../interfaces/LambdaConstant';
 import {aws_lambda} from 'aws-cdk-lib';
 
 const LAMBDA_LIST: LambdaConstant[] = [

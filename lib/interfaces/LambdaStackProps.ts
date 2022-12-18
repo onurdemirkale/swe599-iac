@@ -4,4 +4,4 @@ interface LambdaStackProps extends StackProps {
   null: any;
 }
 
-export default LambdaStackProps;
+export {LambdaStackProps};

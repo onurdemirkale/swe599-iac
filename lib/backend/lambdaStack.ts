@@ -2,6 +2,7 @@
 import {Stack} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 
 // Libraries
 import * as path from 'path';
@@ -9,7 +10,7 @@ import * as path from 'path';
 // Constants
 
 // Interfaces
-import LambdaStackProps from '../interfaces/BackendStackProps';
+import {LambdaStackProps} from '../interfaces/LambdaStackProps';
 
 export default class LambdaStack extends Stack {
   constructor(scope: Construct, id: string, props: LambdaStackProps) {
