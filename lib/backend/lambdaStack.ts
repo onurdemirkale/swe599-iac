@@ -102,7 +102,7 @@ export default class LambdaStack extends Stack {
 
     const lambdaBuildProject = new codebuild.Project(
       this,
-      'LambdaBuildProject',
+      this.lambdaCodebuildProjectName,
       {
         environment: {
           buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2,
