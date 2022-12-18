@@ -14,7 +14,8 @@ import {BackendStackProps} from '../interfaces/BackendStackProps';
 // Types
 import LambdaArnList from '../types/LambdaArnList';
 
-// Models
+// Stacks
+import LambdaStack from './lambdaStack';
 
 export default class BackendStack extends Stack {
   constructor(scope: Construct, id: string, props: BackendStackProps) {
@@ -52,5 +53,8 @@ export default class BackendStack extends Stack {
         description: LAMBDA.SECURITY_GROUP_NAME,
       }
     );
+
+    const lambdaStack = new LambdaStack(this, 'lambdaStack', {null: null});
+    lambdaStack.createLambdaFunction();
   }
 }
