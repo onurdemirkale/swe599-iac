@@ -2,14 +2,6 @@
 
 // CDK
 import {App} from 'aws-cdk-lib';
-import {Construct} from 'constructs';
-import {SecretValue, Stack, StackProps} from 'aws-cdk-lib';
-import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
-import * as codebuild from 'aws-cdk-lib/aws-codebuild';
-import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as codedeploy from 'aws-cdk-lib/aws-codedeploy';
-import * as path from 'path';
 
 // Constants
 import {
