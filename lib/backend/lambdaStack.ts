@@ -85,12 +85,12 @@ export default class LambdaStack extends Stack {
 
     const lambdaSourceOutput = new codepipeline.Artifact();
     const lambdaSourceAction = new codepipelineActions.GitHubSourceAction({
-      actionName: 'LambdaCode_Source',
-      owner: 'onurdemirkale',
-      repo: 'swe599-backend',
-      branch: 'main',
-      oauthToken: SecretValue.secretsManager('github-auth-token', {
-        jsonField: 'accessToken',
+      actionName: 'LambdaCodeSource',
+      owner: this.sourceCodeRepositoryOwner,
+      repo: this.sourceCodeRepositoryName,
+      branch: this.sourceCodeRepositoryBranch,
+      oauthToken: SecretValue.secretsManager(this.githubTokenSecretName, {
+        jsonField: this.githubTokenSecretField,
       }),
       output: lambdaSourceOutput,
     });
