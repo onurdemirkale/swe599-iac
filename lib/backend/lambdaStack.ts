@@ -15,8 +15,36 @@ import * as path from 'path';
 import {LambdaStackProps} from '../interfaces/LambdaStackProps';
 
 export default class LambdaStack extends Stack {
+  // Set attributes
+  public lambdaFunction: lambda.Function;
+  private artifactBucketName: string;
+
+  // Attributes obtained from props
+  private lambdaFunctionName: string;
+  private sourceCodeRepositoryName: string;
+  private sourceCodeRepositoryOwner: string;
+  private sourceCodeRepositoryBranch: string;
+  private githubTokenSecretName: string;
+  private githubTokenSecretField: string;
+
+  // Generated attributes
+  private lambdaCodebuildProjectName: string;
+  private lambdaCodebuildPolicyName: string;
+
   constructor(scope: Construct, id: string, props: LambdaStackProps) {
     super(scope, id, props);
+
+    // Attributes obtained from props
+    this.lambdaFunctionName = props.lambdaFunctionName;
+    this.sourceCodeRepositoryName = props.sourceCodeRepositoryName;
+    this.sourceCodeRepositoryOwner = props.sourceCodeRepositoryOwner;
+    this.sourceCodeRepositoryBranch = props.sourceCodeRepositoryBranch;
+    this.githubTokenSecretName = props.githubTokenSecretName;
+    this.githubTokenSecretField = props.githubTokenSecretField;
+
+    // Generated attributes
+    this.lambdaCodebuildProjectName = `${this.lambdaFunctionName}-Codebuild-Project`;
+    this.lambdaCodebuildPolicyName = `${this.lambdaFunctionName}-Codebuild-Policy`;
 
     // Environment variable checks
     if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
