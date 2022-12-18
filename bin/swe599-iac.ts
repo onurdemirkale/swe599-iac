@@ -197,7 +197,7 @@ pipeline.addStage({
   actions: [
     new codepipeline_actions.CloudFormationCreateUpdateStackAction({
       actionName: 'Lambda_CFN_Deploy',
-      templatePath: cdkBuildOutput.atPath('LambdaStack.template.yaml'),
+      templatePath: cdkBuildOutput.atPath('LambdaStack.template.json'),
       stackName: 'LambdaStackDeployedName',
       adminPermissions: true,
       extraInputs: [lambdaBuildOutput],
