@@ -69,6 +69,12 @@ export default class LambdaStack extends Stack {
     return lambdaFunction;
   }
 
+  attachDynamoDB() {}
+
+  attachRDS() {}
+
+  addToSecurityGroup() {}
+
   // Creates the pipeline for the given Lambda function.
   createLambdaPipeline() {
     const lambdaPipeline = new codepipeline.Pipeline(this, 'Pipeline');
