@@ -15,6 +15,7 @@ import * as path from 'path';
 import {
   VPC_STACK_NAME,
   CLIENT_STACK_NAME,
+  BACKEND_STACK_NAME,
 } from '../lib/constants/globalConstant';
 
 // Stacks
@@ -45,7 +46,7 @@ new ClientStack(app, CLIENT_STACK_NAME, {
   },
 });
 
-new BackendStack(app, 'backendStack', {
+new BackendStack(app, BACKEND_STACK_NAME, {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,
