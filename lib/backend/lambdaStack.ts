@@ -81,6 +81,8 @@ export default class LambdaStack extends Stack {
   createLambdaPipeline() {
     const lambdaPipeline = new codepipeline.Pipeline(this, 'Pipeline');
 
+    this.artifactBucketName = lambdaPipeline.artifactBucket.bucketName;
+
     const lambdaSourceOutput = new codepipeline.Artifact();
     const lambdaSourceAction = new codepipelineActions.GitHubSourceAction({
       actionName: 'LambdaCode_Source',
