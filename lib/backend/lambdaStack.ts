@@ -38,4 +38,8 @@ export default class LambdaStack extends Stack {
 
     return lambdaFunction;
   }
+
+  // Creates the pipeline for the given Lambda function.
+  createLambdaPipeline() {}
+  lambdaPipeline = new codepipeline.Pipeline(this, 'Pipeline');
 }
