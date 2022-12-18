@@ -1,8 +1,9 @@
 // CDK
-import {Stack} from 'aws-cdk-lib';
+import {Stack, SecretValue} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
+import * as codepipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
 
 // Libraries
 import * as path from 'path';
@@ -40,6 +41,24 @@ export default class LambdaStack extends Stack {
   }
 
   // Creates the pipeline for the given Lambda function.
-  createLambdaPipeline() {}
-  lambdaPipeline = new codepipeline.Pipeline(this, 'Pipeline');
+  createLambdaPipeline() {
+    const lambdaPipeline = new codepipeline.Pipeline(this, 'Pipeline');
+
+    const lambdaSourceOutput = new codepipeline.Artifact();
+    const lambdaSourceAction = new codepipelineActions.GitHubSourceAction({
+      actionName: 'LambdaCode_Source',
+      owner: 'onurdemirkale',
+      repo: 'swe599-backend',
+      branch: 'main',
+      oauthToken: SecretValue.secretsManager('github-auth-token', {
+        jsonField: 'accessToken',
+      }),
+      output: lambdaSourceOutput,
+    });
+
+    lambdaPipeline.addStage({
+      stageName: 'Source',
+      actions: [lambdaSourceAction],
+    });
+  }
 }
