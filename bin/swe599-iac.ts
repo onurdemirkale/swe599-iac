@@ -69,6 +69,7 @@ const func = new lambda.Function(lambdaStack, 'Lambda', {
 });
 // used to make sure each CDK synthesis produces a different Version
 const version = func.currentVersion;
+
 const alias = new lambda.Alias(lambdaStack, 'LambdaAlias', {
   aliasName: 'Prod',
   version,
