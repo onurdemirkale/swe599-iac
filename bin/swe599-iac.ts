@@ -9,6 +9,7 @@ import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as codedeploy from 'aws-cdk-lib/aws-codedeploy';
+import * as path from 'path';
 
 // Constants
 import {
@@ -58,7 +59,9 @@ if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
 // });
 
 const lambdaStack = new Stack(app, 'LambdaStack');
-const lambdaCode = lambda.Code.fromCfnParameters();
+const lambdaCode = lambda.Code.fromAsset(
+  path.join(__dirname, '/../lib/lambda/')
+);
 const func = new lambda.Function(lambdaStack, 'Lambda', {
   code: lambdaCode,
   handler: 'index.handler',
@@ -194,7 +197,6 @@ pipeline.addStage({
       templatePath: cdkBuildOutput.atPath('LambdaStack.template.yaml'),
       stackName: 'LambdaStackDeployedName',
       adminPermissions: true,
-      parameterOverrides: lambdaCode.assign(lambdaBuildOutput.s3Location),
       extraInputs: [lambdaBuildOutput],
     }),
   ],
