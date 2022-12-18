@@ -74,6 +74,7 @@ export class LambdaPipelineStack extends Stack {
               'runtime-versions': {
                 nodejs: '14.x',
               },
+              commands: 'npm install',
             },
             build: {
               commands: [
