@@ -76,6 +76,7 @@ export class LambdaPipelineStack extends Stack {
             build: {
               commands: [
                 'npm run build',
+                'node --version',
                 'npm run cdk synth -- -v -o dist', // DEBUGGING TO SEE POSSIBLE STACKS
                 'npm run cdk synth backendStack/LambdaPipelineStack/LambdaStack -- -o .',
               ],
