@@ -74,10 +74,10 @@ export class LambdaPipelineStack extends Stack {
               'runtime-versions': {
                 nodejs: '14.x',
               },
-              commands: 'npm install',
             },
             build: {
               commands: [
+                'npm install',
                 'npm run build',
                 'node --version',
                 'npm run cdk synth -- -v -o dist', // DEBUGGING TO SEE POSSIBLE STACKS
