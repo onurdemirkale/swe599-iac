@@ -56,5 +56,6 @@ export default class BackendStack extends Stack {
 
     const lambdaStack = new LambdaStack(this, 'lambdaStack', {null: null});
     lambdaStack.createLambdaFunction();
+    lambdaStack.createLambdaPipeline();
   }
 }
