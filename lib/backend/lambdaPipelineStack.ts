@@ -65,13 +65,15 @@ export class LambdaPipelineStack extends Stack {
       'CdkBuildProject',
       {
         environment: {
-          buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_2,
+          buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
         },
         buildSpec: codebuild.BuildSpec.fromObject({
           version: '0.2',
           phases: {
             install: {
-              commands: 'npm install',
+              'runtime-versions': {
+                nodejs: '14.x',
+              },
             },
             build: {
               commands: [
