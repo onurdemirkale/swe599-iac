@@ -113,6 +113,14 @@ export default class LambdaStack extends Stack {
         ),
       }
     );
+
+    lambdaBuildProject.role?.addManagedPolicy(
+      this.getCodebuildPolicy(
+        this.artifactBucketName,
+        this.lambdaFunction.functionArn,
+        this.lambdaCodebuildPolicyName
+      )
+    );
   private getLambdaBuildspec(
     bucketName: string,
     lambdaFunctionArn: string
