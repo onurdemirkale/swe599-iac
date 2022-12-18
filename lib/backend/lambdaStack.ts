@@ -60,11 +60,13 @@ export default class LambdaStack extends Stack {
     const lambdaCode = lambda.Code.fromAsset(
       path.join(__dirname, '/../lambda/')
     );
-    const lambdaFunction = new lambda.Function(this, 'Lambda', {
+    const lambdaFunction = new lambda.Function(this, this.lambdaFunctionName, {
       code: lambdaCode,
-      handler: 'handler.main',
-      runtime: lambda.Runtime.NODEJS_18_X,
+      handler: 'index.main',
+      runtime: lambda.Runtime.NODEJS_16_X,
     });
+
+    this.lambdaFunction = lambdaFunction;
 
     return lambdaFunction;
   }
