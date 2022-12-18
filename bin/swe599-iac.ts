@@ -131,7 +131,7 @@ const cdkBuildProject = new codebuild.Project(
             'npm install',
             'npm run build',
             'npm run cdk synth',
-            'npm run cdk synth Lambda-o',
+            'npm run cdk synth LambdaStack -o',
           ],
         },
       },
