@@ -142,15 +142,15 @@ export default class LambdaStack extends Stack {
     lambdaFunctionArn: string
   ): codebuild.BuildSpec {
     const buildspec = codebuild.BuildSpec.fromObject({
-          version: '0.2',
-          phases: {
-            install: {
-              'runtime-versions': {
+      version: '0.2',
+      phases: {
+        install: {
+          'runtime-versions': {
             nodejs: '16.x',
-              },
-              commands: 'npm install',
-            },
-            build: {
+          },
+          commands: 'npm install',
+        },
+        build: {
           commands: ['npm run build', 'zip handler.zip handler.js'],
         },
         post_build: {
@@ -159,15 +159,15 @@ export default class LambdaStack extends Stack {
             'wait',
             `aws lambda update-function-code --function-name ${lambdaFunctionArn} --s3-bucket ${bucketName} --s3-key handler.zip`,
           ],
-            },
-          },
-          artifacts: {
+        },
+      },
+      artifacts: {
         files: ['handler.js', 'node_modules/**/*'],
-          },
+      },
     });
 
     return buildspec;
-      }
+  }
 
   private getCodebuildPolicy(
     artifactBucketName: string,
