@@ -5,6 +5,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as codepipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 // Libraries
 import * as path from 'path';
@@ -121,6 +122,21 @@ export default class LambdaStack extends Stack {
         this.lambdaCodebuildPolicyName
       )
     );
+
+    const lambdaBuildOutput = new codepipeline.Artifact();
+    const lambdaBuildAction = new codepipelineActions.CodeBuildAction({
+      actionName: 'LambdaBuild',
+      project: lambdaBuildProject,
+      input: lambdaSourceOutput,
+      outputs: [lambdaBuildOutput],
+    });
+
+    lambdaPipeline.addStage({
+      stageName: 'Build',
+      actions: [lambdaBuildAction],
+    });
+  }
+
   private getLambdaBuildspec(
     bucketName: string,
     lambdaFunctionArn: string
