@@ -3,6 +3,7 @@ import {Stack, SecretValue} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as codepipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
 
 // Libraries
@@ -59,6 +60,46 @@ export default class LambdaStack extends Stack {
     lambdaPipeline.addStage({
       stageName: 'Source',
       actions: [lambdaSourceAction],
+    });
+
+    const lambdaBuildProject = new codebuild.Project(
+      this,
+      'LambdaBuildProject',
+      {
+        environment: {
+          buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2,
+        },
+        buildSpec: codebuild.BuildSpec.fromObject({
+          version: '0.2',
+          phases: {
+            install: {
+              'runtime-versions': {
+                nodejs: '18.x',
+              },
+              commands: 'npm install',
+            },
+            build: {
+              commands: 'npm run build',
+            },
+          },
+          artifacts: {
+            files: ['index.js', 'node_modules/**/*'],
+          },
+        }),
+      }
+    );
+
+    const lambdaBuildOutput = new codepipeline.Artifact();
+    const lambdaBuildAction = new codepipelineActions.CodeBuildAction({
+      actionName: 'Lambda_Build',
+      project: lambdaBuildProject,
+      input: lambdaSourceOutput,
+      outputs: [lambdaBuildOutput],
+    });
+
+    lambdaPipeline.addStage({
+      stageName: 'Build',
+      actions: [lambdaBuildAction],
     });
   }
 }
