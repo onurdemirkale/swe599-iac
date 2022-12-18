@@ -107,23 +107,36 @@ export default class LambdaStack extends Stack {
         environment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_6_0,
         },
-        buildSpec: codebuild.BuildSpec.fromObject({
+  private getLambdaBuildspec(
+    bucketName: string,
+    lambdaFunctionArn: string
+  ): codebuild.BuildSpec {
+    const buildspec = codebuild.BuildSpec.fromObject({
           version: '0.2',
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '18.x',
+            nodejs: '16.x',
               },
               commands: 'npm install',
             },
             build: {
-              commands: 'npm run build',
+          commands: ['npm run build', 'zip handler.zip handler.js'],
+        },
+        post_build: {
+          commands: [
+            `aws s3api put-object --bucket ${bucketName} --key handler.zip --body handler.zip --expected-bucket-owner ${process.env.CDK_DEFAULT_ACCOUNT}`,
+            'wait',
+            `aws lambda update-function-code --function-name ${lambdaFunctionArn} --s3-bucket ${bucketName} --s3-key handler.zip`,
+          ],
             },
           },
           artifacts: {
-            files: ['index.js', 'node_modules/**/*'],
+        files: ['handler.js', 'node_modules/**/*'],
           },
-        }),
+    });
+
+    return buildspec;
       }
     );
 
