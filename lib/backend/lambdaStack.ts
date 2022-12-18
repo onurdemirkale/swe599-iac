@@ -107,6 +107,12 @@ export default class LambdaStack extends Stack {
         environment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_6_0,
         },
+        buildSpec: this.getLambdaBuildspec(
+          this.artifactBucketName,
+          this.lambdaFunction.functionArn
+        ),
+      }
+    );
   private getLambdaBuildspec(
     bucketName: string,
     lambdaFunctionArn: string
