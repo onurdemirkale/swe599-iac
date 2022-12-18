@@ -138,19 +138,38 @@ export default class LambdaStack extends Stack {
 
     return buildspec;
       }
-    );
 
-    const lambdaBuildOutput = new codepipeline.Artifact();
-    const lambdaBuildAction = new codepipelineActions.CodeBuildAction({
-      actionName: 'Lambda_Build',
-      project: lambdaBuildProject,
-      input: lambdaSourceOutput,
-      outputs: [lambdaBuildOutput],
+  private getCodebuildPolicy(
+    artifactBucketName: string,
+    lambdaFunctionArn: string,
+    codebuildPolicyName: string
+  ): iam.ManagedPolicy {
+    const policyDocument = {
+      Version: '2012-10-17',
+      Statement: [
+        {
+          Sid: 'AllowS3Access',
+          Effect: 'Allow',
+          Action: ['s3:Put*', 's3:Get*', 's3:List*'],
+          Resource: [
+            `arn:aws:s3:::${artifactBucketName}`,
+            `arn:aws:s3:::${artifactBucketName}/*`,
+          ],
+        },
+        {
+          Sid: 'AllowLambdaUpdate',
+          Effect: 'Allow',
+          Action: 'lambda:Update*',
+          Resource: lambdaFunctionArn,
+        },
+      ],
+    };
+
+    const codebuildPolicyDocument = iam.PolicyDocument.fromJson(policyDocument);
+    const codebuildPolicy = new iam.ManagedPolicy(this, codebuildPolicyName, {
+      document: codebuildPolicyDocument,
     });
 
-    lambdaPipeline.addStage({
-      stageName: 'Build',
-      actions: [lambdaBuildAction],
-    });
+    return codebuildPolicy;
   }
 }
