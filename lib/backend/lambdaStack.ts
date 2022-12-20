@@ -16,15 +16,10 @@ import * as path from 'path';
 import {LambdaStackProps} from '../interfaces/LambdaStackProps';
 
 export default class LambdaStack extends Stack {
+  props: LambdaStackProps;
+
   // Set attributes
   public lambdaFunction: lambda.Function;
-  // Attributes obtained from props
-  private lambdaFunctionName: string;
-  private sourceCodeRepositoryName: string;
-  private sourceCodeRepositoryOwner: string;
-  private sourceCodeRepositoryBranch: string;
-  private githubTokenSecretName: string;
-  private githubTokenSecretField: string;
 
   // Generated attributes
   private lambdaCodebuildProjectName: string;
@@ -33,17 +28,11 @@ export default class LambdaStack extends Stack {
   constructor(scope: Construct, id: string, props: LambdaStackProps) {
     super(scope, id, props);
 
-    // Attributes obtained from props
-    this.lambdaFunctionName = props.lambdaFunctionName;
-    this.sourceCodeRepositoryName = props.sourceCodeRepositoryName;
-    this.sourceCodeRepositoryOwner = props.sourceCodeRepositoryOwner;
-    this.sourceCodeRepositoryBranch = props.sourceCodeRepositoryBranch;
-    this.githubTokenSecretName = props.githubTokenSecretName;
-    this.githubTokenSecretField = props.githubTokenSecretField;
+    props = this.props;
 
     // Generated attributes
-    this.lambdaCodebuildProjectName = `${this.lambdaFunctionName}-Codebuild-Project`;
-    this.lambdaCodebuildPolicyName = `${this.lambdaFunctionName}-Codebuild-Policy`;
+    this.lambdaCodebuildProjectName = `${props.lambdaFunctionName}-Codebuild-Project`;
+    this.lambdaCodebuildPolicyName = `${props.lambdaFunctionName}-Codebuild-Policy`;
 
     // Environment variable checks
     if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
@@ -59,11 +48,15 @@ export default class LambdaStack extends Stack {
     const lambdaCode = lambda.Code.fromAsset(
       path.join(__dirname, '/../lambda/')
     );
-    const lambdaFunction = new lambda.Function(this, this.lambdaFunctionName, {
-      code: lambdaCode,
-      handler: 'index.main',
-      runtime: lambda.Runtime.NODEJS_16_X,
-    });
+    const lambdaFunction = new lambda.Function(
+      this,
+      this.props.lambdaFunctionName,
+      {
+        code: lambdaCode,
+        handler: 'index.main',
+        runtime: lambda.Runtime.NODEJS_16_X,
+      }
+    );
 
     this.lambdaFunction = lambdaFunction;
 
@@ -85,11 +78,11 @@ export default class LambdaStack extends Stack {
     const lambdaSourceOutput = new codepipeline.Artifact();
     const lambdaSourceAction = new codepipelineActions.GitHubSourceAction({
       actionName: 'LambdaCodeSource',
-      owner: this.sourceCodeRepositoryOwner,
-      repo: this.sourceCodeRepositoryName,
-      branch: this.sourceCodeRepositoryBranch,
-      oauthToken: SecretValue.secretsManager(this.githubTokenSecretName, {
-        jsonField: this.githubTokenSecretField,
+      owner: this.props.sourceCodeRepositoryOwner,
+      repo: this.props.sourceCodeRepositoryName,
+      branch: this.props.sourceCodeRepositoryBranch,
+      oauthToken: SecretValue.secretsManager(this.props.githubTokenSecretName, {
+        jsonField: this.props.githubTokenSecretField,
       }),
       output: lambdaSourceOutput,
     });
