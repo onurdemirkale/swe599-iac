@@ -76,4 +76,19 @@ export default class ApiGatewayStack extends Stack {
       new apigateway.LambdaIntegration(lambdaFunction)
     );
   }
+
+  /**
+   * Adds an API Gateway Resource to a given API Gateway Root Resource.
+   * @param rootResource The API Gateway Root Resource object.
+   * @param resourcePath The path for the API Gateway Resource.
+   * @returns
+   */
+  addResource(
+    rootResource: apigateway.Resource,
+    resourcePath: 'string'
+  ): apigateway.Resource {
+    const resource = rootResource.addResource(resourcePath);
+
+    return resource;
+  }
 }
