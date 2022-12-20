@@ -6,34 +6,41 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 // Constants
 import {API_GATEWAY} from '../constants/apiGatewayConstant';
 
+// Interfaces
+import {ApiGatewayStackProps} from '../interfaces/ApiGatewayStackProps';
+
 export default class ApiGatewayStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps) {
+  props: ApiGatewayStackProps;
+
+  constructor(scope: Construct, id: string, props: ApiGatewayStackProps) {
     super(scope, id, props);
 
+    props = this.props;
+  }
+
+  /**
+   * @returns Rest API URL
+   */
+  createApi(): string {
     // Create an API Gateway
     const api = new apigateway.RestApi(this, 'api', {
-      description: API_GATEWAY.DESCRIPTION,
+      description: this.props.apiGatewayDescription,
       deployOptions: {
-        stageName: API_GATEWAY.STAGE,
+        stageName: this.props.apiGatewayStageName,
       },
 
       // Enable CORS
       defaultCorsPreflightOptions: {
-        allowHeaders: [
-          'Content-Type',
-          'X-Amz-Date',
-          'Authorization',
-          'X-Api-Key',
-        ],
-
-        // Deep copy to a new array as the constant can't be assigned to mutable type 'string[]
-        allowMethods: [...API_GATEWAY.ALLOWED_METHODS],
-        allowCredentials: true,
-        allowOrigins: [API_GATEWAY.ALLOWED_ORIGINS],
+        allowHeaders: this.props.apiGatewayAllowHeaders,
+        allowMethods: this.props.apiGatewayAllowMethods,
+        allowCredentials: this.props.apiGatewayAllowCredentials,
+        allowOrigins: this.props.apiGatewayAllowOrigins,
       },
     });
 
     // Create an Output for the API URL
     new CfnOutput(this, 'apiUrl', {value: api.url});
+
+    return api.url;
   }
 }
