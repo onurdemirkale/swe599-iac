@@ -18,8 +18,6 @@ import {LambdaStackProps} from '../interfaces/LambdaStackProps';
 export default class LambdaStack extends Stack {
   // Set attributes
   public lambdaFunction: lambda.Function;
-  private artifactBucketName: string;
-
   // Attributes obtained from props
   private lambdaFunctionName: string;
   private sourceCodeRepositoryName: string;
@@ -82,7 +80,7 @@ export default class LambdaStack extends Stack {
   createLambdaPipeline() {
     const lambdaPipeline = new codepipeline.Pipeline(this, 'Pipeline');
 
-    this.artifactBucketName = lambdaPipeline.artifactBucket.bucketName;
+    const artifactBucketName = lambdaPipeline.artifactBucket.bucketName;
 
     const lambdaSourceOutput = new codepipeline.Artifact();
     const lambdaSourceAction = new codepipelineActions.GitHubSourceAction({
@@ -109,7 +107,7 @@ export default class LambdaStack extends Stack {
           buildImage: codebuild.LinuxBuildImage.STANDARD_6_0,
         },
         buildSpec: this.getLambdaBuildspec(
-          this.artifactBucketName,
+          artifactBucketName,
           this.lambdaFunction.functionArn
         ),
       }
@@ -117,7 +115,7 @@ export default class LambdaStack extends Stack {
 
     lambdaBuildProject.role?.addManagedPolicy(
       this.getCodebuildPolicy(
-        this.artifactBucketName,
+        artifactBucketName,
         this.lambdaFunction.functionArn,
         this.lambdaCodebuildPolicyName
       )
