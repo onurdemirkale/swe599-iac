@@ -2,6 +2,7 @@
 import {Stack, StackProps, CfnOutput} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 // Constants
 import {API_GATEWAY} from '../constants/apiGatewayConstant';
@@ -57,5 +58,22 @@ export default class ApiGatewayStack extends Stack {
     const rootResource = api.root.addResource(rootPath);
 
     return rootResource;
+  }
+
+  /**
+   * Integares an API Gateway Resource with a Lambda Function.
+   * @param lambdaFunction The Lambda Function to be integrated.
+   * @param apiGatewayResource The API Gateway Resource that the Lambda Function will be integrated to.
+   * @param resourceMethod The HTTP method.
+   */
+  addLambda(
+    lambdaFunction: lambda.Function,
+    apiGatewayResource: apigateway.Resource,
+    resourceMethod: 'OPTIONS' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+  ) {
+    apiGatewayResource.addMethod(
+      resourceMethod,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
   }
 }
