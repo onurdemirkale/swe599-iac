@@ -43,4 +43,19 @@ export default class ApiGatewayStack extends Stack {
 
     return api.url;
   }
+
+  /**
+   * Creates an API Gateway root Resource.
+   * @param api The API Gateway of the root Resource.
+   * @param rootPath The path of the root Resource.
+   * @returns An API Gateway Root Resource.
+   */
+  createRootResource(
+    api: apigateway.RestApi,
+    rootPath: string
+  ): apigateway.Resource {
+    const rootResource = api.root.addResource(rootPath);
+
+    return rootResource;
+  }
 }
