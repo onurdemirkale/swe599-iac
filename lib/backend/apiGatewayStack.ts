@@ -24,7 +24,7 @@ export default class ApiGatewayStack extends Stack {
    */
   createApi(): apigateway.RestApi {
     // Create an API Gateway
-    const api = new apigateway.RestApi(this, 'api', {
+    const api = new apigateway.RestApi(this, this.props.apiGatewayName, {
       description: this.props.apiGatewayDescription,
       deployOptions: {
         stageName: this.props.apiGatewayStageName,
