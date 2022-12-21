@@ -28,7 +28,7 @@ export default class LambdaStack extends Stack {
   constructor(scope: Construct, id: string, props: LambdaStackProps) {
     super(scope, id, props);
 
-    props = this.props;
+    this.props = props;
 
     // Generated attributes
     this.lambdaCodebuildProjectName = `${props.lambdaFunctionName}-Codebuild-Project`;
