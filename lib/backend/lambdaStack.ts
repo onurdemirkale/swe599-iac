@@ -142,18 +142,18 @@ export default class LambdaStack extends Stack {
           commands: 'npm install',
         },
         build: {
-          commands: ['npm run build', 'zip handler.zip handler.js'],
+          commands: ['npm run build', 'zip index.zip index.js'],
         },
         post_build: {
           commands: [
-            `aws s3api put-object --bucket ${bucketName} --key handler.zip --body handler.zip --expected-bucket-owner ${process.env.CDK_DEFAULT_ACCOUNT}`,
+            `aws s3api put-object --bucket ${bucketName} --key index.zip --body index.zip --expected-bucket-owner ${process.env.CDK_DEFAULT_ACCOUNT}`,
             'wait',
-            `aws lambda update-function-code --function-name ${lambdaFunctionArn} --s3-bucket ${bucketName} --s3-key handler.zip`,
+            `aws lambda update-function-code --function-name ${lambdaFunctionArn} --s3-bucket ${bucketName} --s3-key index.zip`,
           ],
         },
       },
       artifacts: {
-        files: ['handler.js', 'node_modules/**/*'],
+        files: ['index.js', 'node_modules/**/*'],
       },
     });
 
