@@ -22,7 +22,7 @@ export default class ApiGatewayStack extends Stack {
   /**
    * @returns Rest API URL
    */
-  createApi(): string {
+  createApi(): apigateway.RestApi {
     // Create an API Gateway
     const api = new apigateway.RestApi(this, 'api', {
       description: this.props.apiGatewayDescription,
@@ -42,7 +42,7 @@ export default class ApiGatewayStack extends Stack {
     // Create an Output for the API URL
     new CfnOutput(this, 'apiUrl', {value: api.url});
 
-    return api.url;
+    return api;
   }
 
   /**
