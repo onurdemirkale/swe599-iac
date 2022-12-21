@@ -1,13 +1,18 @@
 import {StackProps} from 'aws-cdk-lib';
 
 interface ApiGatewayStackProps extends StackProps {
+  apiGatewayName: string;
   apiGatewayDescription: string;
   apiGatewayStageName: string;
-  apiGatewayAllowedMethods: [
-    'OPTIONS' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
-  ];
+  apiGatewayAllowMethods: (
+    | 'OPTIONS'
+    | 'GET'
+    | 'POST'
+    | 'PUT'
+    | 'PATCH'
+    | 'DELETE'
+  )[];
   apiGatewayAllowHeaders: string[];
-  apiGatewayAllowMethods: string[];
   apiGatewayAllowCredentials: boolean;
   apiGatewayAllowOrigins: string[];
 }
