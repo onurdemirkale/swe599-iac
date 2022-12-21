@@ -16,7 +16,7 @@ export default class ApiGatewayStack extends Stack {
   constructor(scope: Construct, id: string, props: ApiGatewayStackProps) {
     super(scope, id, props);
 
-    props = this.props;
+    this.props = props;
   }
 
   /**
