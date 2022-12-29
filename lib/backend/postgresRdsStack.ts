@@ -21,6 +21,25 @@ export default class PostgresRdsStack extends Stack {
   }
 
   /**
+   * Creates a Secret Manager Secret which is used as the RDS Database credentials
+   * @returns Secret Manager Secret
+   */
+  private createRdsSecret(): secretmanager.Secret {
+    const rdsSecret = new secretmanager.Secret(this, this.props.secretId, {
+      secretName: this.props.secretName,
+      description: `${this.props.databaseId} - RDS Postgres Database Secret`,
+      generateSecretString: {
+        secretStringTemplate: JSON.stringify({
+          username: this.props.secretUsername,
+        }),
+        generateStringKey: this.props.secretGenerateStringKey,
+        excludeCharacters: this.props.secretExcludedCharacters,
+      },
+    });
+
+    return rdsSecret;
+  }
+  /**
    * Creates a private Subnet Group for the RDS database
    * @returns RDS Subnet Group
    */
