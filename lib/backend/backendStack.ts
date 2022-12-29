@@ -91,6 +91,39 @@ export default class BackendStack extends Stack {
 
       lambdaStack.createLambdaFunction();
       lambdaStack.createLambdaPipeline();
+
+      // Obtain the previously created root path.
+      const apiGatewayRootResource = rootResourceMap.get(
+        LAMBDA.apiGatewayRootPath
+      );
+
+      // If API Gateway Root Resource is the only Resource, integrate
+      // the Lambda into the Root Resource.
+      if (LAMBDA.apiGatewayRootPath && !LAMBDA.apiGatewayResourcePath) {
+        if (apiGatewayRootResource) {
+          apiGateway.addLambda(
+            lambdaStack.lambdaFunction,
+            apiGatewayRootResource,
+            LAMBDA.httpMethod
+          );
+        }
+      }
+
+      // If API Gateway Root Resource is not the only Resource, integrate
+      // the Lambda into the given API Gateway Resource.
+      if (LAMBDA.apiGatewayResourcePath) {
+        const apiGatewayResource = apiGatewayRootResource?.addResource(
+          LAMBDA.apiGatewayResourcePath
+        );
+
+        if (apiGatewayResource) {
+          apiGateway.addLambda(
+            lambdaStack.lambdaFunction,
+            apiGatewayResource,
+            LAMBDA.httpMethod
+          );
+        }
+      }
     }
   }
 }
