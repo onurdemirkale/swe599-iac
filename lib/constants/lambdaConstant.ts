@@ -1,14 +1,45 @@
-import {LambdaConstant} from '../interfaces/LambdaConstant';
+import {LambdaStackProps} from '../interfaces/LambdaStackProps';
 import {aws_lambda} from 'aws-cdk-lib';
 
-const LAMBDA_LIST: LambdaConstant[] = [
+const LAMBDA_LIST: LambdaStackProps[] = [
   {
-    NAME: 'test',
-    ARCHITECTURE: aws_lambda.Architecture.ARM_64,
-    CODEBUILD_ON_COMMIT_BRANCHES: ['test', 'test2'],
-    MEMORY_SIZE: 256,
-    TYPE: ['GET', 'POST', 'PUT'],
-    PATH: '/login',
+    lambdaFunctionName: 'login',
+    lambdaArchiteture: aws_lambda.Architecture.ARM_64,
+    lambdaMemorySize: 256,
+    httpMethod: 'POST',
+    apiGatewayRootPath: 'login',
+    apiGatewayResourcePath: null,
+    sourceCodeRepositoryBranch: 'main',
+    sourceCodeRepositoryOwner: 'onurdemirkale',
+    sourceCodeRepositoryName: 'swe599-backend',
+    githubTokenSecretName: 'github-auth-token',
+    githubTokenSecretField: 'accessToken',
+  },
+  {
+    lambdaFunctionName: 'addItem',
+    lambdaArchiteture: aws_lambda.Architecture.ARM_64,
+    lambdaMemorySize: 256,
+    httpMethod: 'POST',
+    apiGatewayRootPath: 'items',
+    apiGatewayResourcePath: 'addItem',
+    sourceCodeRepositoryBranch: 'main',
+    sourceCodeRepositoryOwner: 'onurdemirkale',
+    sourceCodeRepositoryName: 'swe599-backend',
+    githubTokenSecretName: 'github-auth-token',
+    githubTokenSecretField: 'accessToken',
+  },
+  {
+    lambdaFunctionName: 'removeItem',
+    lambdaArchiteture: aws_lambda.Architecture.ARM_64,
+    lambdaMemorySize: 256,
+    httpMethod: 'DELETE',
+    apiGatewayRootPath: 'items',
+    apiGatewayResourcePath: 'removeItem',
+    sourceCodeRepositoryBranch: 'main',
+    sourceCodeRepositoryOwner: 'onurdemirkale',
+    sourceCodeRepositoryName: 'swe599-backend',
+    githubTokenSecretName: 'github-auth-token',
+    githubTokenSecretField: 'accessToken',
   },
 ];
 
