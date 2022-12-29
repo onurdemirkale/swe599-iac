@@ -21,6 +21,22 @@ export default class PostgresRdsStack extends Stack {
   }
 
   /**
+   * Creates a private Subnet Group for the RDS database
+   * @returns RDS Subnet Group
+   */
+  private createDatabaseSubnet(): rds.SubnetGroup {
+    const rdsSubnetGroup = new rds.SubnetGroup(this, this.props.subnetGroupId, {
+      description: `${this.props.databaseId} - Postgres RDS Database Subnet Group`,
+      vpc: this.props.vpc,
+      removalPolicy: RemovalPolicy.DESTROY,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+      },
+    });
+
+    return rdsSubnetGroup;
+  }
+  /**
    * Creates a Security Group
    * @param id ID of the Security Group
    * @param props The props of the Security Group specified under the interface ec2.SecurityGroupProps
