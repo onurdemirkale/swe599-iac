@@ -37,4 +37,19 @@ export default class PostgresRdsStack extends Stack {
     return securityGroup;
   }
 
+  /**
+   * Adds an ingress rule to the given Security Group
+   * @param securityGroup The Security Group Object
+   * @param peer The peer that access the Security Group
+   * @param port The port in which the peer access the Security Group
+   * @param description The description of the ingress rule
+   */
+  private addSecurityGroupIngressRule(
+    securityGroup: ec2.SecurityGroup,
+    peer: ec2.IPeer,
+    port: ec2.Port,
+    description: string
+  ) {
+    securityGroup.addIngressRule(peer, port, description);
+  }
 }
