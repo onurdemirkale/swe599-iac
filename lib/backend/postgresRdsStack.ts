@@ -62,6 +62,49 @@ export default class PostgresRdsStack extends Stack {
 
     return rdsPostgresInstance;
   }
+
+  /**
+   * Creates a Bastion Host for the RDS Postgres Database
+   */
+  createBastionHost() {
+    // Create a security group for the Bastion Host
+    const bastionHostSecurityGroup = this.createSecurityGroup(
+      this.props.bastionHostSecurityGroupId,
+      {vpc: this.props.vpc}
+    );
+
+    // Add an ingress rule for SSH
+    this.addSecurityGroupIngressRule(
+      bastionHostSecurityGroup,
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(22),
+      `${this.props.databaseId} - Bastion Host SSH Ingress`
+    );
+
+    // Add an ingress rule to the RDS Security Group so that
+    // it is accesible from the Bastion Host
+    this.addSecurityGroupIngressRule(
+      this.rdsSecurityGroup,
+      bastionHostSecurityGroup,
+      ec2.Port.tcp(5432),
+      `${this.props.databaseId} - Bastion Host Ingress`
+    );
+
+    // Create the Bastion Host
+    new ec2.BastionHostLinux(this, this.props.bastionHostId, {
+      vpc: this.props.vpc,
+      subnetSelection: {
+        subnetType: ec2.SubnetType.PUBLIC,
+      },
+      instanceName: this.props.bastionHostInstanceName,
+      instanceType: ec2.InstanceType.of(
+        ec2.InstanceClass.T2,
+        ec2.InstanceSize.MICRO
+      ),
+      securityGroup: bastionHostSecurityGroup,
+    });
+  }
+
   /**
    * Creates a Secret Manager Secret which is used as the RDS Database credentials
    * @returns Secret Manager Secret
@@ -81,6 +124,7 @@ export default class PostgresRdsStack extends Stack {
 
     return rdsSecret;
   }
+
   /**
    * Creates a private Subnet Group for the RDS database
    * @returns RDS Subnet Group
@@ -97,6 +141,7 @@ export default class PostgresRdsStack extends Stack {
 
     return rdsSubnetGroup;
   }
+
   /**
    * Creates a Security Group
    * @param id ID of the Security Group
