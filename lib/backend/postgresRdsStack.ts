@@ -20,4 +20,21 @@ export default class PostgresRdsStack extends Stack {
     this.props = props;
   }
 
+  /**
+   * Creates a Security Group
+   * @param id ID of the Security Group
+   * @param props The props of the Security Group specified under the interface ec2.SecurityGroupProps
+   * @returns Security Group
+   */
+  private createSecurityGroup(
+    id: string,
+    props: ec2.SecurityGroupProps
+  ): ec2.SecurityGroup {
+    const securityGroup = new ec2.SecurityGroup(this, id, {
+      ...props,
+    });
+
+    return securityGroup;
+  }
+
 }
