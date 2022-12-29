@@ -26,8 +26,7 @@ export default class BackendStack extends Stack {
     }
 
     // Authenticate to GitHub repository through codebuild using credentials stored in secrets manager
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const codebuildCredentials = new codebuild.GitHubSourceCredentials(
+    new codebuild.GitHubSourceCredentials(
       this,
       BACKEND.CODEBUILD_CREDENTIALS_NAME,
       {
