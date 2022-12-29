@@ -37,6 +37,7 @@ export default class BackendStack extends Stack {
     );
 
     // Create the security group for the Lambda functions
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const lambdaSecurityGroup = new ec2.SecurityGroup(
       this,
       LAMBDA.SECURITY_GROUP_NAME,
