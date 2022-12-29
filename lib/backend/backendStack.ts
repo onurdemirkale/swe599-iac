@@ -11,9 +11,6 @@ import {LAMBDA, LAMBDA_LIST} from '../constants/lambdaConstant';
 // Interfaces
 import {BackendStackProps} from '../interfaces/BackendStackProps';
 
-// Types
-import LambdaArnList from '../types/LambdaArnList';
-
 // Stacks
 import LambdaStack from './lambdaStack';
 
@@ -27,9 +24,6 @@ export default class BackendStack extends Stack {
         'CDK - Undefined CDK credentials in environment variables.'
       );
     }
-
-    // Initialize the list which will map the Lambda names to created Lambda ARNs
-    let lambdaArnList: LambdaArnList;
 
     // Authenticate to GitHub repository through codebuild using credentials stored in secrets manager
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
