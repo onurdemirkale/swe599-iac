@@ -54,5 +54,7 @@ export default class BackendStack extends Stack {
       API_GATEWAY
     );
 
+    const api = apiGateway.createApi();
+
   }
 }
