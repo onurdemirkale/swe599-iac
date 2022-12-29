@@ -70,5 +70,27 @@ export default class BackendStack extends Stack {
         rootResourceMap.set(LAMBDA.apiGatewayRootPath, apiGatewayRootResource);
       }
     }
+    for (const LAMBDA of LAMBDA_LIST) {
+      const lambdaStack = new LambdaStack(
+        this,
+        `${LAMBDA.lambdaFunctionName}Stack`,
+        {
+          lambdaFunctionName: LAMBDA.lambdaFunctionName,
+          lambdaArchiteture: LAMBDA.lambdaArchiteture,
+          lambdaMemorySize: LAMBDA.lambdaMemorySize,
+          httpMethod: LAMBDA.httpMethod,
+          apiGatewayResourcePath: LAMBDA.apiGatewayResourcePath,
+          apiGatewayRootPath: LAMBDA.apiGatewayRootPath,
+          sourceCodeRepositoryBranch: LAMBDA.sourceCodeRepositoryBranch,
+          sourceCodeRepositoryOwner: LAMBDA.sourceCodeRepositoryOwner,
+          sourceCodeRepositoryName: LAMBDA.sourceCodeRepositoryName,
+          githubTokenSecretName: LAMBDA.githubTokenSecretName,
+          githubTokenSecretField: LAMBDA.githubTokenSecretField,
+        }
+      );
+
+      lambdaStack.createLambdaFunction();
+      lambdaStack.createLambdaPipeline();
+    }
   }
 }
