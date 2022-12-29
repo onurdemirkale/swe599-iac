@@ -21,6 +21,48 @@ export default class PostgresRdsStack extends Stack {
   }
 
   /**
+   * Creates an RDS Postgres Database and its Subnet and Security configuration.
+   */
+  createPostgresDatabase(): rds.DatabaseInstance {
+    const rdsSecret = this.createRdsSecret();
+    const rdsSubnet = this.createDatabaseSubnet();
+    const rdsSecurityGroup = this.createSecurityGroup(
+      this.props.databaseSecurityGroupId,
+      {vpc: this.props.vpc}
+    );
+
+    // RDS Security Group attribute is set so that it can be accessed
+    // later if a Bastion Host is created
+    this.rdsSecurityGroup = rdsSecurityGroup;
+
+    // Create the Postgres RDS Database instance
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const rdsPostgresInstance = new rds.DatabaseInstance(
+      this,
+      this.props.databaseId,
+      {
+        databaseName: 'postgres',
+        vpc: this.props.vpc,
+        engine: rds.DatabaseInstanceEngine.postgres({
+          version: rds.PostgresEngineVersion.VER_13_7,
+        }),
+        credentials: rds.Credentials.fromSecret(rdsSecret),
+        instanceType: ec2.InstanceType.of(
+          ec2.InstanceClass.T2,
+          ec2.InstanceSize.MICRO
+        ),
+        maxAllocatedStorage: 200,
+        publiclyAccessible: false,
+        removalPolicy: RemovalPolicy.DESTROY,
+
+        subnetGroup: rdsSubnet,
+        securityGroups: [rdsSecurityGroup],
+      }
+    );
+
+    return rdsPostgresInstance;
+  }
+  /**
    * Creates a Secret Manager Secret which is used as the RDS Database credentials
    * @returns Secret Manager Secret
    */
