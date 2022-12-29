@@ -13,6 +13,8 @@ import {BackendStackProps} from '../interfaces/BackendStackProps';
 
 // Stacks
 import LambdaStack from './lambdaStack';
+import ApiGatewayStack from './apiGatewayStack';
+import {API_GATEWAY} from '../constants/apiGatewayConstant';
 
 export default class BackendStack extends Stack {
   constructor(scope: Construct, id: string, props: BackendStackProps) {
