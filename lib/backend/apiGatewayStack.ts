@@ -69,7 +69,7 @@ export default class ApiGatewayStack extends Stack {
   addLambda(
     lambdaFunction: lambda.Function,
     apiGatewayResource: apigateway.Resource,
-    resourceMethod: 'OPTIONS' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+    resourceMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'AUTH'
   ) {
     apiGatewayResource.addMethod(
       resourceMethod,
