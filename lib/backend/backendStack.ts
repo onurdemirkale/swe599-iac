@@ -8,6 +8,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 // Constants
 import {BACKEND} from '../constants/backendConstant';
 import {LAMBDA, LAMBDAS} from '../constants/lambdaConstant';
+import {API_GATEWAY} from '../constants/apiGatewayConstant';
 
 // Interfaces
 import {BackendStackProps} from '../interfaces/BackendStackProps';
