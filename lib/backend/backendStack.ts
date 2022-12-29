@@ -48,8 +48,11 @@ export default class BackendStack extends Stack {
       }
     );
 
-    const lambdaStack = new LambdaStack(this, 'lambdaStack', {null: null});
-    lambdaStack.createLambdaFunction();
-    lambdaStack.createLambdaPipeline();
+    const apiGateway = new ApiGatewayStack(
+      this,
+      API_GATEWAY.apiGatewayName,
+      API_GATEWAY
+    );
+
   }
 }
