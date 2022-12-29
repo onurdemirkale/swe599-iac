@@ -70,6 +70,10 @@ export default class BackendStack extends Stack {
         rootResourceMap.set(LAMBDA.apiGatewayRootPath, apiGatewayRootResource);
       }
     }
+
+    // Itereate over the Lambda functions and create the Lambda functions
+    // and their respective pipelines. Then create API Gateway Resources
+    // and integrate Lambda Functions.
     for (const LAMBDA of LAMBDA_LIST) {
       const lambdaStack = new LambdaStack(
         this,
