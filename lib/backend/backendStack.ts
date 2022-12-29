@@ -56,5 +56,19 @@ export default class BackendStack extends Stack {
 
     const api = apiGateway.createApi();
 
+    // Initially, iterate over Lambda Functions and create API Gateway Root
+    // Resources that may be used by multiple Lambda Functions.
+    const rootResourceMap = new Map<string, apigateway.Resource>();
+
+    for (const LAMBDA of LAMBDA_LIST) {
+      if (!rootResourceMap.has(LAMBDA.apiGatewayRootPath)) {
+        const apiGatewayRootResource = apiGateway.createRootResource(
+          api,
+          LAMBDA.apiGatewayRootPath
+        );
+
+        rootResourceMap.set(LAMBDA.apiGatewayRootPath, apiGatewayRootResource);
+      }
+    }
   }
 }
