@@ -3,6 +3,7 @@ import {Stack, SecretValue} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
 // Constants
 import {BACKEND} from '../constants/backendConstant';
