@@ -7,7 +7,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
 // Constants
 import {BACKEND} from '../constants/backendConstant';
-import {LAMBDA, LAMBDA_LIST} from '../constants/lambdaConstant';
+import {LAMBDA, LAMBDAS} from '../constants/lambdaConstant';
 
 // Interfaces
 import {BackendStackProps} from '../interfaces/BackendStackProps';
@@ -63,7 +63,7 @@ export default class BackendStack extends Stack {
     // Resources that may be used by multiple Lambda Functions.
     const rootResourceMap = new Map<string, apigateway.Resource>();
 
-    for (const LAMBDA of LAMBDA_LIST) {
+    for (const LAMBDA of LAMBDAS) {
       if (!rootResourceMap.has(LAMBDA.apiGatewayRootPath)) {
         const apiGatewayRootResource = apiGateway.createRootResource(
           api,
@@ -77,7 +77,7 @@ export default class BackendStack extends Stack {
     // Itereate over the Lambda functions and create the Lambda functions
     // and their respective pipelines. Then create API Gateway Resources
     // and integrate Lambda Functions.
-    for (const LAMBDA of LAMBDA_LIST) {
+    for (const LAMBDA of LAMBDAS) {
       const lambdaStack = new LambdaStack(
         this,
         `${LAMBDA.lambdaFunctionName}Stack`,

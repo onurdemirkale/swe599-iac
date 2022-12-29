@@ -1,7 +1,7 @@
 import {LambdaStackProps} from '../interfaces/LambdaStackProps';
 import {aws_lambda} from 'aws-cdk-lib';
 
-const LAMBDA_LIST: LambdaStackProps[] = [
+const LAMBDAS: LambdaStackProps[] = [
   {
     lambdaFunctionName: 'login',
     lambdaArchiteture: aws_lambda.Architecture.ARM_64,
@@ -47,4 +47,4 @@ const LAMBDA = {
   SECURITY_GROUP_NAME: 'swe599-lambda-sg',
 };
 
-export {LAMBDA, LAMBDA_LIST};
+export {LAMBDA, LAMBDAS};
