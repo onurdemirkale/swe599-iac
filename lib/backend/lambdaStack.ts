@@ -6,6 +6,7 @@ import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as codepipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as rds from 'aws-cdk-lib/aws-rds';
 
 // Libraries
 import * as path from 'path';
@@ -65,7 +66,9 @@ export default class LambdaStack extends Stack {
 
   attachDynamoDB() {}
 
-  attachRDS() {}
+  attachRDS(rdsInstance: rds.DatabaseInstance) {
+    console.log(rdsInstance);
+  }
 
   addToSecurityGroup() {}
 
