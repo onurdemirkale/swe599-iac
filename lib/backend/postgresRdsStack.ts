@@ -48,7 +48,7 @@ export default class PostgresRdsStack extends Stack {
         }),
         credentials: rds.Credentials.fromSecret(rdsSecret),
         instanceType: ec2.InstanceType.of(
-          ec2.InstanceClass.T2,
+          ec2.InstanceClass.T3,
           ec2.InstanceSize.MICRO
         ),
         maxAllocatedStorage: 200,
