@@ -60,13 +60,16 @@ export default class PostgresRdsStack extends Stack {
       }
     );
 
+    // Create a Bastion Host for the RDS Postgres Instance
+    this.createBastionHost();
+
     return rdsPostgresInstance;
   }
 
   /**
    * Creates a Bastion Host for the RDS Postgres Database
    */
-  createBastionHost() {
+  private createBastionHost() {
     // Create a security group for the Bastion Host
     const bastionHostSecurityGroup = this.createSecurityGroup(
       this.props.bastionHostSecurityGroupId,
