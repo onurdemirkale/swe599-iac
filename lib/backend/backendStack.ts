@@ -16,11 +16,14 @@ import {BackendStackProps} from '../interfaces/BackendStackProps';
 // Stacks
 import LambdaStack from './lambdaStack';
 import ApiGatewayStack from './apiGatewayStack';
-import PostgresRdsStack from './postgresRdsStack';
 
 export default class BackendStack extends Stack {
+  props: BackendStackProps;
+
   constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props);
+
+    this.props = props;
 
     // Env variable checks
     if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
