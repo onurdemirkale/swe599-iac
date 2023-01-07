@@ -102,6 +102,7 @@ export default class BackendStack extends Stack {
 
       lambdaStack.createLambdaFunction();
       lambdaStack.createLambdaPipeline();
+      lambdaStack.attachRDS(props.postgresRdsInstance);
 
       // Obtain the previously created root path.
       const apiGatewayRootResource = rootResourceMap.get(
