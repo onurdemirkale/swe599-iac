@@ -67,4 +67,5 @@ new BackendStack(app, BACKEND_STACK_NAME, {
     region: process.env.CDK_DEFAULT_REGION,
   },
   vpc: vpcStack.vpc,
+  postgresRdsInstance: postgresRdsInstance,
 });
