@@ -1,11 +1,8 @@
 // CDK
-import {Stack, StackProps, CfnOutput} from 'aws-cdk-lib';
+import {Stack, CfnOutput} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-
-// Constants
-import {API_GATEWAY} from '../constants/apiGatewayConstant';
 
 // Interfaces
 import {ApiGatewayStackProps} from '../interfaces/ApiGatewayStackProps';
