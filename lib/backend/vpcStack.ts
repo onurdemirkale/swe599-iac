@@ -10,6 +10,13 @@ export default class VpcStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
+    // Env variable checks
+    if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
+      throw new Error(
+        'CDK - Undefined CDK credentials in environment variables.'
+      );
+    }
+
     const vpc = new ec2.Vpc(this, VPC.ID, {
       vpcName: VPC.NAME,
       cidr: VPC.CIDR,
