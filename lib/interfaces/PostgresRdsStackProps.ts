@@ -13,7 +13,6 @@ interface PostgresRdsStackProps extends StackProps {
   secretName: string;
   secretUsername: string;
   secretGenerateStringKey: string;
-  secretExcludedCharacters: string;
 }
 
 export {PostgresRdsStackProps};

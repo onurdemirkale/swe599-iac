@@ -117,8 +117,9 @@ export default class PostgresRdsStack extends Stack {
         secretStringTemplate: JSON.stringify({
           username: this.props.secretUsername,
         }),
+        excludePunctuation: true,
+        includeSpace: false,
         generateStringKey: this.props.secretGenerateStringKey,
-        excludeCharacters: this.props.secretExcludedCharacters,
       },
     });
 
