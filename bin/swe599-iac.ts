@@ -9,14 +9,17 @@ import {
   CLIENT_STACK_NAME,
   BACKEND_STACK_NAME,
   POSTGRES_RDS_STACK_NAME,
+  SECRET_STACK_NAME,
 } from '../lib/constants/globalConstant';
 import {POSTGRES_RDS} from '../lib/constants/postgresRdsConstant';
+import {SECRET} from '../lib/constants/secretStackConstant';
 
 // Stacks
 import VpcStack from '../lib/backend/vpcStack';
 import ClientStack from '../lib/frontend/clientStack';
 import BackendStack from '../lib/backend/backendStack';
 import PostgresRdsStack from '../lib/backend/postgresRdsStack';
+import SecretStack from '../lib/backend/secretStack';
 
 const app = new App();
 
@@ -24,6 +27,17 @@ const app = new App();
 if (!process.env.CDK_DEFAULT_ACCOUNT || !process.env.CDK_DEFAULT_REGION) {
   throw new Error('CDK environment variables are not defined in the CLI.');
 }
+
+// Create the Secret stack which handles authentication to various AWS services
+const secretStack = new SecretStack(app, SECRET_STACK_NAME, {
+  ...SECRET,
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
+});
+
+secretStack.connectCodebuildToGitHub();
 
 // Create the VPC stack which provides the virtual network for the resources
 const vpcStack = new VpcStack(app, VPC_STACK_NAME, {
