@@ -1,5 +1,5 @@
 // CDK
-import {Stack, StackProps, RemovalPolicy, SecretValue} from 'aws-cdk-lib';
+import {Stack, StackProps, RemovalPolicy} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -33,18 +33,6 @@ export default class Client extends Stack {
       removalPolicy: RemovalPolicy.DESTROY, // Enables automatic deletion during `cdk destroy`
       autoDeleteObjects: true,
     });
-
-    // Authenticate to GitHub repository through codebuild using credentials stored in secrets manager
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const codebuildCredentials = new codebuild.GitHubSourceCredentials(
-      this,
-      CLIENT.CODEBUILD_CREDENTIALS_NAME,
-      {
-        accessToken: SecretValue.secretsManager(CLIENT.GITHUB_TOKEN_NAME, {
-          jsonField: 'accessToken',
-        }),
-      }
-    );
 
     // Read buildspec
     const buildspecYaml = readFileSync(CLIENT.BUILDSPEC_PATH, 'utf-8');
