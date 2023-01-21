@@ -1,12 +1,10 @@
 // CDK
-import {Stack, SecretValue} from 'aws-cdk-lib';
+import {Stack} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
-import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
 // Constants
-import {BACKEND} from '../constants/backendConstant';
 import {LAMBDA, LAMBDAS} from '../constants/lambdaConstant';
 import {API_GATEWAY} from '../constants/apiGatewayConstant';
 
@@ -31,17 +29,6 @@ export default class BackendStack extends Stack {
         'CDK - Undefined CDK credentials in environment variables.'
       );
     }
-
-    // Authenticate to GitHub repository through codebuild using credentials stored in secrets manager
-    new codebuild.GitHubSourceCredentials(
-      this,
-      BACKEND.CODEBUILD_CREDENTIALS_NAME,
-      {
-        accessToken: SecretValue.secretsManager(BACKEND.GITHUB_TOKEN_NAME, {
-          jsonField: 'accessToken',
-        }),
-      }
-    );
 
     // Create the security group for the Lambda functions
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
