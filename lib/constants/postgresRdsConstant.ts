@@ -1,4 +1,4 @@
-import {PostgresRdsConstant} from '../interfaces/PostgresRdsConstants';
+import {PostgresRdsConstant} from '../interfaces/PostgresRdsConstant';
 
 const POSTGRES_RDS: PostgresRdsConstant = {
   databaseId: 'swe599-rds',
